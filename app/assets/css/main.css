@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/*
+ * Палітра країни прокидається з даних у --c-primary / --c-accent / --c-surface
+ * (див. composables/useCountryTheme.ts), тож уся тема «переодягається» щопонеділка.
+ */
+@theme inline {
+  --color-primary: var(--c-primary);
+  --color-accent: var(--c-accent);
+  --color-surface: var(--c-surface);
+  --color-bg: var(--c-bg);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-card: var(--c-card);
+  --color-line: var(--c-line);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
+}
+
+:root {
+  --c-primary: #1f1b16;
+  --c-accent: #e8a33d;
+  --c-surface: #faf6ee;
+  --c-ink: #1f1b16;
+  --c-muted: #6b6359;
+  --c-card: #ffffff;
+  --c-bg: var(--c-surface);
+  --c-line: color-mix(in oklab, var(--c-ink) 12%, transparent);
+  --nav-h: 64px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Фон країни затемнюємо, акценти лишаємо впізнаваними */
+    --c-bg: color-mix(in oklab, var(--c-primary) 8%, #131110);
+    --c-ink: #f3ede4;
+    --c-muted: #a69d92;
+    --c-card: #1e1b19;
+    color-scheme: dark;
+  }
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  transition: background-color 0.4s;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.pb-nav {
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 1.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
